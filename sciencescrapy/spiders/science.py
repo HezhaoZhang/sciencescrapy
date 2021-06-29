@@ -21,4 +21,6 @@ class ScienceSpider(scrapy.Spider):
     def second_parse(self, response):
         about_cover = response.xpath("//div[@class='panel-pane pane-highwire-markup box-standout "
                                      "priority-2']/div/div/div")
+        summary = about_cover.xpath(".//div[@class='caption cover-img']").xpath("string(.)")
+        img = about_cover.xpath("./img/@src")
         pass
