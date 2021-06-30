@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-/data/
+/sciencescrapy/img/
 
 # C extensions
 *.so
