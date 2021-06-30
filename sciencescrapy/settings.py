@@ -12,11 +12,13 @@ BOT_NAME = 'sciencescrapy'
 SPIDER_MODULES = ['sciencescrapy.spiders']
 NEWSPIDER_MODULE = 'sciencescrapy.spiders'
 
+IMAGE_STORE = 'imgs/'
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'sciencescrapy (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-# ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 # CONCURRENT_REQUESTS = 32
@@ -61,9 +63,9 @@ NEWSPIDER_MODULE = 'sciencescrapy.spiders'
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    'sciencescrapy.pipelines.SciencescrapyPipeline': 300,
-# }
+ITEM_PIPELINES = {
+   'sciencescrapy.pipelines.SciencescrapyPipeline': 1,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

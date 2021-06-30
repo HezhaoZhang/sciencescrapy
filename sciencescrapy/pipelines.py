@@ -6,8 +6,29 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
+from scrapy.pipelines.images import ImagesPipeline
 
 
-class SciencescrapyPipeline:
-    def process_item(self, item, spider):
-        return item
+class SciencescrapyPipeline(ImagesPipeline):
+    # 重写方法
+    def get_media_requests(self, item, info):
+        yield scrapy.Request(item["img"], meta={'item': item})
+
+    # 指定文件存储路径
+    def file_path(self, request, response=None, info=None):
+        # 打印图片路径
+        # print(request.url)
+        # 通过分割图片路径获取图片名字
+        img_name = request.meta['item']["issue"] + ".jpg"
+        return img_name
+
+    # 返回item对象，给下一执行的管道类
+    def item_completed(self, results, item, info):
+        # 图片下载路径、url和校验和等信息
+
+        if results[0][0]:
+            item['img_name'] = item["issue"] + ".jpg"
+            print(results)
+            return item
+        else:
+            pass
