@@ -7,15 +7,15 @@
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 from scrapy.pipelines.images import ImagesPipeline
-
+import scrapy
 
 class SciencescrapyPipeline(ImagesPipeline):
     # 重写方法
     def get_media_requests(self, item, info):
-        yield scrapy.Request(item["img"], meta={'item': item})
+        yield scrapy.Request(item["img_url"], meta={'item': item})
 
     # 指定文件存储路径
-    def file_path(self, request, response=None, info=None):
+    def file_path(self, request, response=None, info=None, *, item=None):
         # 打印图片路径
         # print(request.url)
         # 通过分割图片路径获取图片名字
@@ -32,3 +32,27 @@ class SciencescrapyPipeline(ImagesPipeline):
             return item
         else:
             pass
+
+
+class EsPipeline(object):
+    def open_spider(self, spider):
+        self.es = Elasticsearch(timeout=300, max_retries=100, retry_on_timeout=True)
+        self.items = []
+
+    def process_item(self, item, spider):
+        if item:
+            data = {}
+            for k in item:
+                if k != 'id':
+                    data[k] = item[k]
+            data.update(_index='aitopics', _id=item['id'])
+            self.items.append(data)
+            if len(self.items) == 50:
+                helpers.bulk(self.es, self.items)
+                self.items = []
+            return item
+        else:
+            pass
+
+    def close(self, spider):
+        helpers.bulk(self.es, self.items)

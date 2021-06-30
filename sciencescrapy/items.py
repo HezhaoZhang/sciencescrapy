@@ -13,7 +13,6 @@ class SciencescrapyItem(scrapy.Item):
     vol = scrapy.Field()
     year = scrapy.Field()
     date = scrapy.Field()
-    img = scrapy.Field()
+    img_url = scrapy.Field()
     img_name = scrapy.Field()
     summary = scrapy.Field()
-    pass
