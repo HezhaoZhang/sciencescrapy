@@ -9,6 +9,7 @@ from itemadapter import ItemAdapter
 from scrapy.pipelines.images import ImagesPipeline
 import scrapy
 
+
 class SciencescrapyPipeline(ImagesPipeline):
     # 重写方法
     def get_media_requests(self, item, info):
@@ -19,7 +20,7 @@ class SciencescrapyPipeline(ImagesPipeline):
         # 打印图片路径
         # print(request.url)
         # 通过分割图片路径获取图片名字
-        img_name = request.meta['item']["issue"] + ".jpg"
+        img_name = request.meta['item']["date"]+ ".jpg"
         return img_name
 
     # 返回item对象，给下一执行的管道类
@@ -27,7 +28,7 @@ class SciencescrapyPipeline(ImagesPipeline):
         # 图片下载路径、url和校验和等信息
 
         if results[0][0]:
-            item['img_name'] = item["issue"] + ".jpg"
+            item['img_name'] = item["date"] + ".jpg"
             print(results)
             return item
         else:
