@@ -8,7 +8,7 @@
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
 BOT_NAME = 'sciencescrapy'
-
+LOG_LEVEL = 'INFO'
 SPIDER_MODULES = ['sciencescrapy.spiders']
 NEWSPIDER_MODULE = 'sciencescrapy.spiders'
 
@@ -65,6 +65,7 @@ DOWNLOAD_DELAY = 3
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'sciencescrapy.pipelines.SciencescrapyPipeline': 300,
+   'sciencescrapy.pipelines.EsPipeline': 200,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

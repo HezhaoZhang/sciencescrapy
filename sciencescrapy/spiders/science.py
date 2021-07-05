@@ -24,6 +24,7 @@ class ScienceSpider(scrapy.Spider):
         metadata = response.xpath("//div[@class='panel-pane pane-panels-mini pane-jnl-sci-art-issue box-standout "
                                   "priority-2']//article/div[@class='media__body']")
         item['vol'] = metadata.xpath("./p/text()").extract()[0]
+        item['issue'] = metadata.xpath("./p/text()").extract()[0].split(" ")[-1]
         item['date'] = metadata.xpath("./p/text()").extract()[1]
         summary = about_cover.xpath(".//div[@class='caption cover-img']").xpath("string(.)").extract()[0]
         img = about_cover.xpath("./img/@src").extract()[0]

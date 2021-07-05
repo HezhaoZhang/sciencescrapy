@@ -8,6 +8,7 @@
 from itemadapter import ItemAdapter
 from scrapy.pipelines.images import ImagesPipeline
 import scrapy
+from elasticsearch import Elasticsearch, helpers
 
 
 class SciencescrapyPipeline(ImagesPipeline):
@@ -20,7 +21,7 @@ class SciencescrapyPipeline(ImagesPipeline):
         # 打印图片路径
         # print(request.url)
         # 通过分割图片路径获取图片名字
-        img_name = request.meta['item']["date"]+ ".jpg"
+        img_name = request.meta['item']["date"] + ".jpg"
         return img_name
 
     # 返回item对象，给下一执行的管道类
@@ -46,9 +47,9 @@ class EsPipeline(object):
             for k in item:
                 if k != 'id':
                     data[k] = item[k]
-            data.update(_index='aitopics', _id=item['id'])
+            data.update(_index='science', _id=item['issue'])
             self.items.append(data)
-            if len(self.items) == 50:
+            if len(self.items) == 5:
                 helpers.bulk(self.es, self.items)
                 self.items = []
             return item
